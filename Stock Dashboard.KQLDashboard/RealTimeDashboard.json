@@ -1,0 +1,150 @@
+{
+  "schema_version": 67,
+  "tiles": [
+    {
+      "id": "56e00730-f48f-4fc3-a766-afa3b6551dac",
+      "title": "current price",
+      "visualType": "column",
+      "pageId": "7fc6144a-6cd6-4312-a3aa-9ff0bca57370",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 9,
+        "height": 8
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "23a9db72-1273-45c7-86bd-5ba5dd55bbb6"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": null,
+        "yColumns": null,
+        "seriesColumns": null,
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilter": [],
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "drillthrough": []
+      }
+    },
+    {
+      "id": "51fc5a3a-8495-4503-aa21-1d119056418a",
+      "title": "price trend",
+      "visualType": "line",
+      "pageId": "7fc6144a-6cd6-4312-a3aa-9ff0bca57370",
+      "layout": {
+        "x": 9,
+        "y": 0,
+        "width": 15,
+        "height": 8
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "26c5fbe2-492d-4bab-9bc5-466b027cc574"
+      },
+      "visualOptions": {
+        "multipleYAxes": {
+          "base": {
+            "id": "-1",
+            "label": "",
+            "columns": [],
+            "yAxisMaximumValue": null,
+            "yAxisMinimumValue": null,
+            "yAxisScale": "linear",
+            "horizontalLines": []
+          },
+          "additional": [],
+          "showMultiplePanels": false
+        },
+        "hideLegend": false,
+        "legendLocation": "bottom",
+        "xColumnTitle": "",
+        "xColumn": null,
+        "yColumns": null,
+        "seriesColumns": null,
+        "xAxisScale": "linear",
+        "verticalLine": "",
+        "crossFilter": [],
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "forceAxisTicks": false,
+        "drillthrough": []
+      }
+    }
+  ],
+  "baseQueries": [],
+  "parameters": [
+    {
+      "kind": "duration",
+      "id": "534ee107-d8d6-4fd1-8c05-160e7d17d85c",
+      "displayName": "Time range",
+      "description": "",
+      "beginVariableName": "_startTime",
+      "endVariableName": "_endTime",
+      "defaultValue": {
+        "kind": "dynamic",
+        "count": 1,
+        "unit": "hours"
+      },
+      "showOnPages": {
+        "kind": "all"
+      }
+    }
+  ],
+  "dataSources": [
+    {
+      "kind": "kusto-trident",
+      "scopeId": "kusto-trident",
+      "clusterUri": "",
+      "database": "9931b307-baaa-b044-4752-a3f75251428a",
+      "name": "eventstore",
+      "id": "13c994d4-2633-4dd1-8a10-8f580179e783",
+      "workspace": "00000000-0000-0000-0000-000000000000",
+      "queryResultsCacheMaxAge": 300000
+    }
+  ],
+  "pages": [
+    {
+      "name": "Page 1",
+      "id": "7fc6144a-6cd6-4312-a3aa-9ff0bca57370"
+    }
+  ],
+  "queries": [
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "13c994d4-2633-4dd1-8a10-8f580179e783"
+      },
+      "text": "// Please enter your KQL query (Example):\n// <table name>\n// | where <datetime column> between (['_startTime'] .. ['_endTime']) // Time range filtering\n// | take 100\n\nStock\n| where ['time'] > ago(5m) \n| summarize avgPrice = round(avg(todecimal(bidPrice)),4) by symbol\n| project symbol, avgPrice\n",
+      "id": "23a9db72-1273-45c7-86bd-5ba5dd55bbb6",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "13c994d4-2633-4dd1-8a10-8f580179e783"
+      },
+      "text": "// Please enter your KQL query (Example):\n// <table name>\n// | where <datetime column> between (['_startTime'] .. ['_endTime']) // Time range filtering\n// | take 100\n\nStock\n| summarize avgPrice = round(avg(todecimal(bidPrice)),4) by symbol, bin(['time'], 5m) \n| render timechart\n",
+      "id": "26c5fbe2-492d-4bab-9bc5-466b027cc574",
+      "usedVariables": []
+    }
+  ]
+}
